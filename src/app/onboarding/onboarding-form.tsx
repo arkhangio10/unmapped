@@ -95,7 +95,20 @@ export default function OnboardingForm({ config }: { config: CountryConfig }) {
     )
   }
 
+  function validate(formData: typeof form): string | null {
+    if (!formData.display_name.trim()) return t('onboarding.error_no_name')
+    if (!formData.region) return t('onboarding.error_no_region')
+    if (formData.raw_self_description.trim().length < 20) return t('onboarding.error_too_short')
+    return null
+  }
+
   async function submitProfile(formData: typeof form, langs: string[]) {
+    const validationError = validate(formData)
+    if (validationError) {
+      setError(validationError)
+      return
+    }
+
     setLoading(true)
     setError(null)
     try {
@@ -109,14 +122,21 @@ export default function OnboardingForm({ config }: { config: CountryConfig }) {
         }),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error ?? 'Failed to create profile')
+      if (!res.ok) {
+        // Map known API errors to friendly messages
+        const apiMsg = data?.details?.[0]?.message ?? data?.error ?? ''
+        if (apiMsg.includes('20 characters') || apiMsg.includes('too_small')) {
+          throw new Error(t('onboarding.error_too_short'))
+        }
+        throw new Error(apiMsg || t('onboarding.error_generic'))
+      }
 
       if (typeof window !== 'undefined' && data.human_readable_summary) {
         window.sessionStorage.setItem(`profile_summary_${data.user_id}`, data.human_readable_summary)
       }
       router.push(`/profile/${data.user_id}`)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Something went wrong')
+      setError(err instanceof Error ? err.message : t('onboarding.error_generic'))
     } finally {
       setLoading(false)
     }
@@ -282,9 +302,22 @@ export default function OnboardingForm({ config }: { config: CountryConfig }) {
               hint={t('onboarding.voice_hint')}
               listeningLabel={t('onboarding.voice_listening')}
             />
-            <p className="text-xs text-muted-foreground">
-              {form.raw_self_description.length} / 3000 {t('onboarding.description_helper')}
-            </p>
+            <div className="flex items-center justify-between text-xs">
+              <span
+                className={cn(
+                  'tabular-nums',
+                  form.raw_self_description.trim().length >= 20
+                    ? 'text-primary font-medium'
+                    : 'text-coral'
+                )}
+              >
+                {form.raw_self_description.length} / 3000 ·{' '}
+                {form.raw_self_description.trim().length >= 20
+                  ? '✓'
+                  : `${20 - form.raw_self_description.trim().length} ${t('onboarding.min_chars_hint')}`}
+              </span>
+              <span className="text-muted-foreground">{t('onboarding.description_helper')}</span>
+            </div>
           </div>
         </Reveal>
 
