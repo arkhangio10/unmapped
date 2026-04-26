@@ -72,6 +72,8 @@ export async function POST(req: NextRequest) {
       user_id: user.id,
       skills_profile: matchedSkills,
       human_readable_summary: summary,
+      candidate_count: candidates.length,
+      mapped_count: matchedSkills.length,
     })
   } catch (err) {
     console.error('[profile/create]', err)

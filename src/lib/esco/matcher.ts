@@ -52,9 +52,10 @@ export async function matchToEsco(
     return { skill, overlap }
   })
   scored.sort((a, b) => b.overlap - a.overlap)
-  const top30 = scored.slice(0, 30).map(s => s.skill)
+  // Use a larger pool so skill-rich profiles get full coverage
+  const topN = scored.slice(0, 50).map(s => s.skill)
 
-  const escoListText = top30
+  const escoListText = topN
     .map(s => `${s.esco_id}|${s.skill_name}|${s.skill_category}|${s.description.slice(0, 80)}`)
     .join('\n')
 
@@ -66,18 +67,18 @@ export async function matchToEsco(
 
 IMPORTANT: Translate skill_name and evidence to ${langName}. The esco_id and skill_category must remain in English (universal codes). Use natural ${langName} phrasing for skill names that a layperson would understand.
 
-Return ONLY a JSON array with no markdown: [{"esco_id": string, "skill_name": string (in ${langName}), "skill_category": string (English), "confidence": number, "source": "self-reported"|"llm-inferred", "evidence": string (in ${langName})}]. Return at most 8 matches. Only include high-quality matches (confidence > 0.5).`
+Return ONLY a JSON array with no markdown: [{"esco_id": string, "skill_name": string (in ${langName}), "skill_category": string (English), "confidence": number, "source": "self-reported"|"llm-inferred", "evidence": string (in ${langName})}]. Return up to 12 matches if the candidate skills justify it — but ONLY include high-quality matches (confidence > 0.5). Quality over quantity.`
 
   const userPrompt = `Candidate skills from the person's description:\n${candidateListText}\n\nAvailable ESCO skills (id|name|category|description):\n${escoListText}`
 
-  const response = await callClaude(systemPrompt, userPrompt, 1500)
+  const response = await callClaude(systemPrompt, userPrompt, 2000)
 
   try {
     const cleaned = response.replace(/```json|```/g, '').trim()
     return JSON.parse(cleaned) as MatchedSkill[]
   } catch {
     // Fallback: return best keyword match
-    return top30.slice(0, 5).map(s => ({
+    return topN.slice(0, 5).map(s => ({
       esco_id: s.esco_id,
       skill_name: s.skill_name,
       skill_category: s.skill_category,
@@ -96,9 +97,18 @@ export async function generateHumanReadableSummary(
   const language = country.primary_language === 'es' ? 'Spanish' : 'English'
   const skillList = skills.map(s => `${s.skill_name} (ESCO ${s.esco_id})`).join(', ')
 
-  const systemPrompt = `You are writing a 2-3 sentence professional summary that this person will show to potential employers. Frame their informal experience as legitimate professional experience. Mention specific ISCO occupational categories that align with their skills. Be specific, dignified, and grounded — do not exaggerate. Write entirely in ${language} — every word, including occupation names. Address the person by their first name. Do not use jargon a non-expert would not understand. Do not mention ESCO IDs in the summary text.`
+  const systemPrompt = `You are writing a 2-3 sentence professional summary that this person will show to potential employers. Frame their informal experience as legitimate professional experience. Mention specific ISCO occupational categories that align with their skills. Be specific, dignified, and grounded — do not exaggerate. Write entirely in ${language} — every word, including occupation names. Address the person by their first name. Do not use jargon a non-expert would not understand. Do not mention ESCO IDs in the summary text.
+
+CRITICAL: Output PLAIN TEXT only — no markdown headers (#), no bold (**), no bullet points, no titles, no labels like "Resumen Profesional:". Just write the 2-3 sentences directly. The first character of your output must be a capital letter starting the first sentence.`
 
   const userPrompt = `Name: ${demographics.name}, Age: ${demographics.age}, Region: ${demographics.region}, Country: ${country.country_name}, Education: ${demographics.education_level}\nIdentified skills: ${skillList}`
 
-  return callClaude(systemPrompt, userPrompt, 300)
+  const raw = await callClaude(systemPrompt, userPrompt, 300)
+  // Defensive cleanup: strip any markdown that slipped through
+  return raw
+    .replace(/^#+\s*/gm, '')           // remove leading #
+    .replace(/\*\*([^*]+)\*\*/g, '$1') // remove bold
+    .replace(/^\s*[-*]\s+/gm, '')      // remove bullet markers
+    .replace(/^[A-Z][a-záéíóúñ\s]+:\s*/i, '') // strip a "Title:" prefix if any
+    .trim()
 }

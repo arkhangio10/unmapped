@@ -3,8 +3,12 @@
 import { useEffect, useState } from 'react'
 import { Reveal } from '@/components/reveal'
 import { useT, useLang } from '@/lib/i18n'
+import { useCountry } from '@/lib/country-context'
 
-const FLAG: Record<string, string> = { PER: '🇵🇪 Peru', GHA: '🇬🇭 Ghana' }
+const FLAG: Record<string, Record<string, string>> = {
+  en: { PER: '🇵🇪 Peru', GHA: '🇬🇭 Ghana' },
+  es: { PER: '🇵🇪 Perú', GHA: '🇬🇭 Ghana' },
+}
 
 export default function SummaryCard({
   userId,
@@ -19,12 +23,28 @@ export default function SummaryCard({
 }) {
   const t = useT()
   const lang = useLang()
+  const { countryCode: activeCountry, switchCountry } = useCountry()
   const [summary, setSummary] = useState<string>('…')
+
+  // Sync the global active country to this profile's country so the
+  // entire page (labels, navbar, etc.) renders in the right language.
+  useEffect(() => {
+    if (countryCode && countryCode !== activeCountry) {
+      switchCountry(countryCode)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [countryCode])
 
   useEffect(() => {
     const stored = window.sessionStorage.getItem(`profile_summary_${userId}`)
     if (stored) {
-      setSummary(stored)
+      // Defensive: strip any markdown that slipped past server-side cleanup
+      const cleaned = stored
+        .replace(/^#+\s*/gm, '')
+        .replace(/\*\*([^*]+)\*\*/g, '$1')
+        .replace(/^\s*[-*]\s+/gm, '')
+        .trim()
+      setSummary(cleaned)
     } else {
       const fallback = lang === 'es'
         ? `${displayName} aporta experiencia práctica y vivida que se mapea a categorías de habilidades reconocidas por ESCO. La cuadrícula a continuación muestra el perfil estandarizado.`
@@ -44,7 +64,7 @@ export default function SummaryCard({
               <h2 className="font-serif-display text-3xl text-foreground">{displayName}</h2>
               <p className="text-sm text-muted-foreground mt-1">
                 {region && <span>{region} · </span>}
-                {FLAG[countryCode] ?? countryCode}
+                {FLAG[lang]?.[countryCode] ?? FLAG.en[countryCode] ?? countryCode}
               </p>
             </div>
             <span className="rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 text-[11px] font-medium text-primary">

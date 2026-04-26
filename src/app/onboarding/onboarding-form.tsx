@@ -26,7 +26,7 @@ const LANGUAGE_OPTIONS = [
 export default function OnboardingForm({ config }: { config: CountryConfig }) {
   const router = useRouter()
   const t = useT()
-  const { country } = useCountry()
+  const { country, switchCountry } = useCountry()
   // Use the live country config from context (not the SSR snapshot)
   const liveConfig = country ?? config
 
@@ -131,8 +131,16 @@ export default function OnboardingForm({ config }: { config: CountryConfig }) {
         throw new Error(apiMsg || t('onboarding.error_generic'))
       }
 
-      if (typeof window !== 'undefined' && data.human_readable_summary) {
-        window.sessionStorage.setItem(`profile_summary_${data.user_id}`, data.human_readable_summary)
+      if (typeof window !== 'undefined') {
+        if (data.human_readable_summary) {
+          window.sessionStorage.setItem(`profile_summary_${data.user_id}`, data.human_readable_summary)
+        }
+        if (typeof data.candidate_count === 'number') {
+          window.sessionStorage.setItem(
+            `profile_extraction_${data.user_id}`,
+            JSON.stringify({ candidates: data.candidate_count, mapped: data.mapped_count })
+          )
+        }
       }
       router.push(`/profile/${data.user_id}`)
     } catch (err) {
@@ -207,7 +215,14 @@ export default function OnboardingForm({ config }: { config: CountryConfig }) {
               <label className="text-sm font-medium text-foreground">{t('onboarding.country_label')}</label>
               <Select
                 value={form.country_code}
-                onValueChange={(v) => setForm((f) => ({ ...f, country_code: v as 'PER' | 'GHA' }))}
+                onValueChange={(v) => {
+                  const code = v as 'PER' | 'GHA'
+                  setForm((f) => ({ ...f, country_code: code, region: '' }))
+                  // Sync global active country so the entire UI flips language
+                  if (code !== liveConfig.country_code) {
+                    switchCountry(code)
+                  }
+                }}
               >
                 <SelectTrigger className="w-full h-10 rounded-xl">
                   <SelectValue />

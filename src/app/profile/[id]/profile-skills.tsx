@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import { Progress } from '@/components/ui/progress'
@@ -27,6 +28,18 @@ interface Skill {
 
 export default function ProfileSkills({ id, skills }: { id: string; skills: Skill[] }) {
   const t = useT()
+  const [extraction, setExtraction] = useState<{ candidates: number; mapped: number } | null>(null)
+
+  useEffect(() => {
+    const stored = window.sessionStorage.getItem(`profile_extraction_${id}`)
+    if (stored) {
+      try {
+        setExtraction(JSON.parse(stored))
+      } catch {
+        // ignore
+      }
+    }
+  }, [id])
 
   return (
     <>
@@ -36,6 +49,11 @@ export default function ProfileSkills({ id, skills }: { id: string; skills: Skil
             <h2 className="font-serif-display text-2xl text-foreground">{t('profile.skills_title')}</h2>
             <p className="text-sm text-muted-foreground">
               {skills.length} {t('profile.skills_count')}
+              {extraction && extraction.candidates > extraction.mapped && (
+                <span className="ml-1 text-xs text-muted-foreground/70">
+                  ({extraction.candidates} {t('profile.extraction_detail')})
+                </span>
+              )}
             </p>
           </div>
           <Link
