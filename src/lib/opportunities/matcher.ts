@@ -87,22 +87,30 @@ export async function matchOpportunities(userId: string, country: CountryConfig)
   const userName = user?.display_name ?? 'you'
   const userRegion = user?.region ?? country.demo_persona.region
 
+  const lang = country.primary_language === 'es' ? 'Spanish' : 'English'
+  const isSpanish = country.primary_language === 'es'
+
   const results = await Promise.all(
     top5.map(async (opp) => {
       const growthStr = opp.employment
         ? `${opp.employment.growth_pct > 0 ? '+' : ''}${opp.employment.growth_pct.toFixed(1)}%`
-        : 'growth data unavailable'
+        : (isSpanish ? 'datos de crecimiento no disponibles' : 'growth data unavailable')
 
-      const prompt = `Write a single sentence (max 20 words) explaining why ${userName} in ${userRegion} is a good fit for the role of ${opp.wage.occupation_name} in ${country.country_name}. Mention the wage of ${country.currency} ${opp.wage.median_monthly_wage_local}/month or the sector growth of ${growthStr}.`
+      const prompt = isSpanish
+        ? `Escribe una sola oración (máx 20 palabras) explicando por qué ${userName} en ${userRegion} es una buena opción para el rol de ${opp.wage.occupation_name} en ${country.country_name}. Menciona el salario de ${country.currency} ${opp.wage.median_monthly_wage_local}/mes o el crecimiento sectorial de ${growthStr}.`
+        : `Write a single sentence (max 20 words) explaining why ${userName} in ${userRegion} is a good fit for the role of ${opp.wage.occupation_name} in ${country.country_name}. Mention the wage of ${country.currency} ${opp.wage.median_monthly_wage_local}/month or the sector growth of ${growthStr}.`
+
+      const systemPrompt = isSpanish
+        ? `Eres un asesor de carrera. Escribe una oración específica fundamentada en los números reales proporcionados. Responde en ${lang}.`
+        : `You are a career advisor. Write one specific sentence grounded in the actual numbers provided. Reply in ${lang}.`
+
       let reasoning = ''
       try {
-        reasoning = await callClaude(
-          'You are a career advisor. Write one specific sentence grounded in the actual numbers provided.',
-          prompt,
-          80
-        )
+        reasoning = await callClaude(systemPrompt, prompt, 80)
       } catch {
-        reasoning = `Strong skill match with ${opp.wage.sector} sector. Wage: ${country.currency} ${opp.wage.median_monthly_wage_local}/month.`
+        reasoning = isSpanish
+          ? `Buena coincidencia con el sector ${opp.wage.sector}. Salario: ${country.currency} ${opp.wage.median_monthly_wage_local}/mes.`
+          : `Strong skill match with ${opp.wage.sector} sector. Wage: ${country.currency} ${opp.wage.median_monthly_wage_local}/month.`
       }
 
       const distance: 'reachable' | 'stretch' | 'aspirational' =

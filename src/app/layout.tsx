@@ -1,20 +1,25 @@
 import type { Metadata } from 'next'
-import { Geist } from 'next/font/google'
+import { Inter, Instrument_Serif } from 'next/font/google'
 import './globals.css'
 import { CountryProvider } from '@/lib/country-context'
 import { getCountryConfig } from '@/lib/config-loader'
 import { cookies } from 'next/headers'
 import Navbar from '@/components/navbar'
 
-const geist = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const instrumentSerif = Instrument_Serif({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-instrument-serif',
+})
 
 export const metadata: Metadata = {
-  title: 'UNMAPPED — Informal Skills to Economic Opportunity',
+  title: 'UNMAPPED — Turn informal skills into economic identity',
   description:
-    'Open infrastructure that maps a young person\'s real skills to real economic opportunities in low- and middle-income countries.',
+    'UNMAPPED helps young people in low- and middle-income countries map informal experience to formal opportunities using ISCO/ESCO taxonomy and World Bank labor data.',
   openGraph: {
-    title: 'UNMAPPED',
-    description: 'Your skills are real. Now they\'re visible.',
+    title: 'UNMAPPED — Skills mapped, futures unlocked',
+    description: 'Civic-tech infrastructure mapping informal youth skills to economic opportunities.',
     type: 'website',
   },
 }
@@ -26,7 +31,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang={config.primary_language}>
-      <body className={`${geist.variable} font-sans antialiased bg-slate-950 text-slate-100 min-h-screen`}>
+      <body className={`${inter.variable} ${instrumentSerif.variable} antialiased min-h-screen`}>
         <CountryProvider initialCountryCode={activeCountry} initialConfig={config}>
           <Navbar />
           <main>{children}</main>

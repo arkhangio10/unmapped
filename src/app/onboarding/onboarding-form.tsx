@@ -1,13 +1,18 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
+import { Sparkles, ArrowRight, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Badge } from '@/components/ui/badge'
+import { Reveal } from '@/components/reveal'
+import { VoiceTextarea } from '@/components/voice-textarea'
+import { LoadingBulldog } from '@/components/loading-bulldog'
 import { CountryConfig } from '@/types'
+import { cn } from '@/lib/utils'
+import { useT } from '@/lib/i18n'
+import { useCountry } from '@/lib/country-context'
 
 const LANGUAGE_OPTIONS = [
   { value: 'es', label: 'Español' },
@@ -20,43 +25,73 @@ const LANGUAGE_OPTIONS = [
 
 export default function OnboardingForm({ config }: { config: CountryConfig }) {
   const router = useRouter()
+  const t = useT()
+  const { country } = useCountry()
+  // Use the live country config from context (not the SSR snapshot)
+  const liveConfig = country ?? config
+
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([config.primary_language])
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([liveConfig.primary_language])
 
   const [form, setForm] = useState({
     display_name: '',
     age: '',
-    country_code: config.country_code,
+    country_code: liveConfig.country_code,
     region: '',
     education_level: '',
     raw_self_description: '',
   })
 
   const demoDescription =
-    config.primary_language === 'es'
-      ? config.demo_persona.description_es
-      : config.demo_persona.description_en
+    liveConfig.primary_language === 'es' ? liveConfig.demo_persona.description_es : liveConfig.demo_persona.description_en
+
+  // Build the region list based on the currently selected country in the form,
+  // not just the live country — so user can switch country and see new regions.
+  const allConfigs = useMemo(() => {
+    const map: Record<string, string[]> = {
+      PER: liveConfig.country_code === 'PER' ? liveConfig.regions ?? [] : [],
+      GHA: liveConfig.country_code === 'GHA' ? liveConfig.regions ?? [] : [],
+    }
+    map[liveConfig.country_code] = liveConfig.regions ?? []
+    return map
+  }, [liveConfig])
+
+  const [regionsByCountry, setRegionsByCountry] = useState<Record<string, string[]>>(allConfigs)
+
+  // Lazy-load other country's regions if user switches the country dropdown
+  useEffect(() => {
+    if (regionsByCountry[form.country_code]?.length) return
+    fetch(`/api/v1/config/${form.country_code}`)
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.config?.regions) {
+          setRegionsByCountry((prev) => ({ ...prev, [form.country_code]: d.config.regions }))
+        }
+      })
+      .catch(() => {})
+  }, [form.country_code, regionsByCountry])
+
+  const currentRegions = regionsByCountry[form.country_code] ?? []
 
   async function fillDemo() {
     const demoForm = {
-      display_name: config.demo_persona.name,
-      age: String(config.demo_persona.age),
-      country_code: config.country_code,
-      region: config.demo_persona.region,
+      display_name: liveConfig.demo_persona.name,
+      age: String(liveConfig.demo_persona.age),
+      country_code: liveConfig.country_code,
+      region: liveConfig.demo_persona.region,
       education_level: 'secondary',
       raw_self_description: demoDescription,
     }
     setForm(demoForm)
-    const demoLangs = config.secondary_languages.slice(0, 2)
+    const demoLangs = liveConfig.secondary_languages.slice(0, 2)
     setSelectedLanguages(demoLangs)
-    // Auto-submit for the wow demo flow
     await submitProfile(demoForm, demoLangs)
   }
 
   function toggleLanguage(lang: string) {
-    setSelectedLanguages(prev =>
-      prev.includes(lang) ? prev.filter(l => l !== lang) : [...prev, lang]
+    setSelectedLanguages((prev) =>
+      prev.includes(lang) ? prev.filter((l) => l !== lang) : [...prev, lang]
     )
   }
 
@@ -73,15 +108,12 @@ export default function OnboardingForm({ config }: { config: CountryConfig }) {
           languages: langs,
         }),
       })
-
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Failed to create profile')
 
-      // Stash summary in sessionStorage to avoid long URL query strings
       if (typeof window !== 'undefined' && data.human_readable_summary) {
         window.sessionStorage.setItem(`profile_summary_${data.user_id}`, data.human_readable_summary)
       }
-
       router.push(`/profile/${data.user_id}`)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong')
@@ -96,164 +128,188 @@ export default function OnboardingForm({ config }: { config: CountryConfig }) {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-12">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white mb-2">Tell us about yourself</h1>
-        <p className="text-slate-400">
-          Write freely — the more you share, the better your profile. Use your own words.
-        </p>
-      </div>
+    <div className="mx-auto max-w-2xl px-4 sm:px-6 py-12">
+      {loading && <LoadingBulldog />}
+      <Reveal>
+        <h1 className="font-serif-display text-4xl sm:text-5xl text-foreground mb-2">{t('onboarding.title')}</h1>
+        <p className="text-muted-foreground leading-relaxed">{t('onboarding.subtitle')}</p>
+      </Reveal>
 
-      <div className="mb-6">
-        <Button
+      <Reveal delay={150}>
+        <button
           type="button"
-          variant="outline"
-          className="border-orange-500/40 text-orange-400 hover:border-orange-400 hover:bg-orange-500/10"
           onClick={fillDemo}
+          disabled={loading}
+          className="hover-lift mt-8 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-2 text-sm font-medium text-primary hover:border-primary disabled:opacity-50"
         >
-          ✨ Use demo persona ({config.demo_persona.name}, {config.demo_persona.region})
-        </Button>
-      </div>
+          <Sparkles className="h-4 w-4" />
+          {t('onboarding.use_demo')} ({liveConfig.demo_persona.name}, {liveConfig.demo_persona.region})
+        </button>
+      </Reveal>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <label htmlFor="display_name" className="text-sm font-medium text-slate-300">
-              Your name
-            </label>
-            <Input
-              id="display_name"
-              placeholder="Diego"
-              value={form.display_name}
-              onChange={e => setForm(f => ({ ...f, display_name: e.target.value }))}
-              required
-              className="bg-slate-900 border-slate-700 text-white placeholder:text-slate-500"
-            />
+      <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+        <Reveal delay={250}>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label htmlFor="display_name" className="text-sm font-medium text-foreground">
+                {t('onboarding.name_label')}
+              </label>
+              <Input
+                id="display_name"
+                placeholder="Diego"
+                value={form.display_name}
+                onChange={(e) => setForm((f) => ({ ...f, display_name: e.target.value }))}
+                required
+                className="rounded-xl"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label htmlFor="age" className="text-sm font-medium text-foreground">
+                {t('onboarding.age_label')}
+              </label>
+              <Input
+                id="age"
+                type="number"
+                placeholder="21"
+                min={14}
+                max={65}
+                value={form.age}
+                onChange={(e) => setForm((f) => ({ ...f, age: e.target.value }))}
+                className="rounded-xl"
+              />
+            </div>
           </div>
+        </Reveal>
 
-          <div className="space-y-2">
-            <label htmlFor="age" className="text-sm font-medium text-slate-300">
-              Age
-            </label>
-            <Input
-              id="age"
-              type="number"
-              placeholder="21"
-              min={14}
-              max={65}
-              value={form.age}
-              onChange={e => setForm(f => ({ ...f, age: e.target.value }))}
-              className="bg-slate-900 border-slate-700 text-white placeholder:text-slate-500"
-            />
+        <Reveal delay={300}>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium text-foreground">{t('onboarding.country_label')}</label>
+              <Select
+                value={form.country_code}
+                onValueChange={(v) => setForm((f) => ({ ...f, country_code: v as 'PER' | 'GHA' }))}
+              >
+                <SelectTrigger className="w-full h-10 rounded-xl">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="PER">🇵🇪 Peru</SelectItem>
+                  <SelectItem value="GHA">🇬🇭 Ghana</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium text-foreground">
+                {t('onboarding.region_label')}
+              </label>
+              <Select
+                value={form.region}
+                onValueChange={(v) => setForm((f) => ({ ...f, region: v ?? '' }))}
+              >
+                <SelectTrigger className="w-full h-10 rounded-xl">
+                  <SelectValue placeholder={t('onboarding.region_placeholder')} />
+                </SelectTrigger>
+                <SelectContent>
+                  {currentRegions.map((region) => (
+                    <SelectItem key={region} value={region}>
+                      {region}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
-        </div>
+        </Reveal>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-slate-300">Country</label>
+        <Reveal delay={350}>
+          <div className="space-y-1.5">
+            <label className="text-sm font-medium text-foreground">{t('onboarding.education_label')}</label>
             <Select
-              value={form.country_code}
-              onValueChange={v => setForm(f => ({ ...f, country_code: v as 'PER' | 'GHA' }))}
+              value={form.education_level}
+              onValueChange={(v) => setForm((f) => ({ ...f, education_level: v ?? '' }))}
             >
-              <SelectTrigger className="bg-slate-900 border-slate-700 text-white">
-                <SelectValue />
+              <SelectTrigger className="w-full h-10 rounded-xl">
+                <SelectValue placeholder="…" />
               </SelectTrigger>
-              <SelectContent className="bg-slate-900 border-slate-700">
-                <SelectItem value="PER">🇵🇪 Peru</SelectItem>
-                <SelectItem value="GHA">🇬🇭 Ghana</SelectItem>
+              <SelectContent>
+                <SelectItem value="none">{t('onboarding.education_none')}</SelectItem>
+                <SelectItem value="primary">{t('onboarding.education_primary')}</SelectItem>
+                <SelectItem value="secondary">{t('onboarding.education_secondary')}</SelectItem>
+                <SelectItem value="vocational">{t('onboarding.education_vocational')}</SelectItem>
+                <SelectItem value="tertiary">{t('onboarding.education_tertiary')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
+        </Reveal>
 
+        <Reveal delay={400}>
           <div className="space-y-2">
-            <label htmlFor="region" className="text-sm font-medium text-slate-300">
-              Region or city
+            <label className="text-sm font-medium text-foreground">{t('onboarding.languages_label')}</label>
+            <div className="flex flex-wrap gap-2">
+              {LANGUAGE_OPTIONS.map((lang) => {
+                const active = selectedLanguages.includes(lang.value)
+                return (
+                  <button
+                    key={lang.value}
+                    type="button"
+                    onClick={() => toggleLanguage(lang.value)}
+                    className={cn(
+                      'rounded-full border px-3 py-1 text-xs font-medium transition-all',
+                      active
+                        ? 'border-primary bg-primary text-primary-foreground'
+                        : 'border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground'
+                    )}
+                  >
+                    {lang.label}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={450}>
+          <div className="space-y-1.5">
+            <label htmlFor="description" className="text-sm font-medium text-foreground">
+              {t('onboarding.description_label')}
             </label>
-            <Input
-              id="region"
-              placeholder="Cusco"
-              value={form.region}
-              onChange={e => setForm(f => ({ ...f, region: e.target.value }))}
-              className="bg-slate-900 border-slate-700 text-white placeholder:text-slate-500"
+            <VoiceTextarea
+              value={form.raw_self_description}
+              onChange={(v) => setForm((f) => ({ ...f, raw_self_description: v }))}
+              placeholder={demoDescription}
+              maxLength={3000}
+              lang={liveConfig.primary_language}
+              hint={t('onboarding.voice_hint')}
+              listeningLabel={t('onboarding.voice_listening')}
             />
+            <p className="text-xs text-muted-foreground">
+              {form.raw_self_description.length} / 3000 {t('onboarding.description_helper')}
+            </p>
           </div>
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-300">Highest education level</label>
-          <Select
-            value={form.education_level}
-            onValueChange={v => setForm(f => ({ ...f, education_level: v ?? '' }))}
-          >
-            <SelectTrigger className="bg-slate-900 border-slate-700 text-white">
-              <SelectValue placeholder="Select level" />
-            </SelectTrigger>
-            <SelectContent className="bg-slate-900 border-slate-700">
-              <SelectItem value="none">No formal education</SelectItem>
-              <SelectItem value="primary">Primary school</SelectItem>
-              <SelectItem value="secondary">Secondary school</SelectItem>
-              <SelectItem value="vocational">Vocational training</SelectItem>
-              <SelectItem value="tertiary">University or college</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-300">Languages you speak</label>
-          <div className="flex flex-wrap gap-2">
-            {LANGUAGE_OPTIONS.map(lang => (
-              <button
-                key={lang.value}
-                type="button"
-                onClick={() => toggleLanguage(lang.value)}
-                className="focus:outline-none"
-              >
-                <Badge
-                  variant={selectedLanguages.includes(lang.value) ? 'default' : 'secondary'}
-                  className={
-                    selectedLanguages.includes(lang.value)
-                      ? 'bg-orange-500 text-white cursor-pointer hover:bg-orange-400'
-                      : 'bg-slate-800 text-slate-400 cursor-pointer hover:bg-slate-700'
-                  }
-                >
-                  {lang.label}
-                </Badge>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="space-y-2">
-          <label htmlFor="description" className="text-sm font-medium text-slate-300">
-            Describe your work, skills, and experience
-          </label>
-          <Textarea
-            id="description"
-            placeholder={demoDescription}
-            value={form.raw_self_description}
-            onChange={e => setForm(f => ({ ...f, raw_self_description: e.target.value }))}
-            required
-            rows={6}
-            className="bg-slate-900 border-slate-700 text-white placeholder:text-slate-500 resize-none"
-          />
-          <p className="text-xs text-slate-500">
-            {form.raw_self_description.length} / 3000 characters. Write in any language.
-          </p>
-        </div>
+        </Reveal>
 
         {error && (
-          <div className="bg-red-900/20 border border-red-800 rounded-lg p-3 text-red-400 text-sm">
-            {error}
+          <div className="rounded-xl border border-coral/40 bg-coral/10 p-3 text-sm text-coral flex items-start gap-2">
+            <AlertCircle className="h-4 w-4 mt-0.5 flex-shrink-0" />
+            <span>{error}</span>
           </div>
         )}
 
-        <Button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-orange-500 hover:bg-orange-400 text-white font-bold py-6 text-lg rounded-xl"
-        >
-          {loading ? 'Generating your profile...' : 'Generate my profile →'}
-        </Button>
+        <Reveal delay={500}>
+          <Button
+            type="submit"
+            disabled={loading}
+            className="hover-lift w-full rounded-full bg-primary py-6 text-base font-semibold text-primary-foreground hover:bg-primary/90"
+          >
+            {loading ? (
+              t('onboarding.generating')
+            ) : (
+              <span className="inline-flex items-center gap-2">
+                {t('onboarding.submit')} <ArrowRight className="h-4 w-4" />
+              </span>
+            )}
+          </Button>
+        </Reveal>
       </form>
     </div>
   )

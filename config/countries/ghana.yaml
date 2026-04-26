@@ -14,9 +14,26 @@ data_sources:
   macro: wdi_ghana.json
 informal_economy_share: 0.85
 youth_neet_rate: 0.30
+regions:
+  - Greater Accra
+  - Ashanti
+  - Western
+  - Central
+  - Eastern
+  - Volta
+  - Northern
+  - Upper East
+  - Upper West
+  - Bono
+  - Bono East
+  - Ahafo
+  - Western North
+  - Oti
+  - North East
+  - Savannah
 demo_persona:
   name: Amara
   age: 22
-  region: Accra
+  region: Greater Accra
   description_en: "I run a phone repair business, taught myself Python on YouTube, and speak three languages."
   description_es: "Tengo un negocio de reparación de teléfonos, aprendí Python en YouTube por mi cuenta, y hablo tres idiomas."

@@ -81,6 +81,7 @@ export interface CountryConfig {
   }
   informal_economy_share: number
   youth_neet_rate: number
+  regions?: string[]
   demo_persona: {
     name: string
     age: number

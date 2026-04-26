@@ -1,144 +1,122 @@
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { getCountryConfig } from '@/lib/config-loader'
+'use client'
 
-export default async function LandingPage() {
-  await getCountryConfig()
+import Link from 'next/link'
+import { ArrowRight, Sparkles, Target, ShieldCheck, Globe } from 'lucide-react'
+import { Reveal, CharReveal } from '@/components/reveal'
+import { useT } from '@/lib/i18n'
+
+export default function LandingPage() {
+  const t = useT()
+
+  const FEATURES = [
+    { icon: Sparkles, title: t('landing.module_1_title'), desc: t('landing.module_1_desc'), tag: 'ESCO v1.2.0' },
+    { icon: ShieldCheck, title: t('landing.module_2_title'), desc: t('landing.module_2_desc'), tag: 'Frey-Osborne 2013' },
+    { icon: Target, title: t('landing.module_3_title'), desc: t('landing.module_3_desc'), tag: 'ILOSTAT · WDI' },
+  ]
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-56px)]">
-      {/* Hero */}
-      <section className="flex-1 flex flex-col items-center justify-center px-4 py-20 text-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-orange-500/5 via-transparent to-transparent pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/5 rounded-full blur-3xl pointer-events-none" />
+    <div className="min-h-[calc(100vh-64px)] bg-background text-foreground">
+      <section className="relative isolate mx-auto max-w-6xl px-4 sm:px-6 pt-20 pb-24 text-center">
+        <div className="aurora" aria-hidden="true">
+          <div className="aurora__blob aurora__blob--1" />
+          <div className="aurora__blob aurora__blob--2" />
+          <div className="aurora__blob aurora__blob--3" />
+          <div className="aurora__grain" />
+        </div>
 
-        <div className="relative max-w-3xl mx-auto">
-          <Badge className="mb-6 bg-orange-500/10 text-orange-400 border-orange-500/20 hover:bg-orange-500/10">
-            Hack-Nation × MIT × World Bank · 2026
-          </Badge>
+        <div className="relative z-10">
+          <Reveal>
+            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+              {t('landing.badge')}
+            </span>
+          </Reveal>
 
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight mb-4 leading-tight">
-            Your skills are real.
+          <h1 className="mt-6 font-serif-display text-5xl sm:text-6xl md:text-7xl leading-[1.05] text-foreground max-w-4xl mx-auto">
+            <CharReveal text={t('landing.hero_line1')} />
+            <br />
+            <em className="italic text-primary">
+              <CharReveal text={t('landing.hero_line2')} startDelay={500} />
+            </em>
           </h1>
-          <h2 className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tight mb-8 leading-tight text-orange-400">
-            Now they&apos;re visible.
-          </h2>
 
-          <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-            UNMAPPED is open infrastructure that turns lived experience into a portable economic
-            identity — mapped to international standards, readable by any employer, government,
-            or training provider in any country.
-          </p>
+          <Reveal delay={900}>
+            <p className="mt-6 max-w-2xl mx-auto text-lg text-muted-foreground leading-relaxed">
+              {t('landing.hero_description')}
+            </p>
+          </Reveal>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/onboarding">
-              <Button size="lg" className="bg-orange-500 hover:bg-orange-400 text-white font-bold text-lg px-8 py-6 rounded-xl w-full sm:w-auto">
-                Try the demo →
-              </Button>
-            </Link>
-            <Link href="/dashboard">
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-slate-700 text-slate-300 hover:border-slate-500 hover:text-white text-lg px-8 py-6 rounded-xl w-full sm:w-auto"
+          <Reveal delay={1050}>
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/onboarding"
+                className="hover-lift inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-base font-semibold text-primary-foreground shadow-sm hover:bg-primary/90"
               >
-                Policymaker dashboard
-              </Button>
-            </Link>
-          </div>
+                {t('landing.cta_primary')} <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/dashboard"
+                className="hover-lift inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3 text-base font-medium text-foreground hover:border-primary"
+              >
+                {t('landing.cta_secondary')}
+              </Link>
+            </div>
+          </Reveal>
 
-          <div className="mt-12 flex flex-col sm:flex-row gap-3 justify-center text-sm text-slate-500">
-            <span className="flex items-center gap-1.5">
-              <span>🇵🇪</span>
-              <span>Diego, 21, Cusco — motorcycle mechanic, Facebook seller</span>
-            </span>
-            <span className="hidden sm:inline text-slate-700">·</span>
-            <span className="flex items-center gap-1.5">
-              <span>🇬🇭</span>
-              <span>Amara, 22, Accra — phone repair, self-taught Python</span>
-            </span>
-          </div>
+          <Reveal delay={1200}>
+            <p className="mt-12 text-sm text-muted-foreground">
+              <span className="inline-flex items-center gap-1.5">🇵🇪 {t('landing.personas_label')}</span>
+              <span className="mx-3 text-border">·</span>
+              <span className="inline-flex items-center gap-1.5">🇬🇭 {t('landing.personas_label_2')}</span>
+            </p>
+          </Reveal>
         </div>
       </section>
 
-      {/* Three modules */}
-      <section className="px-4 py-16 bg-slate-900/50">
-        <div className="max-w-5xl mx-auto">
-          <h3 className="text-center text-2xl font-bold mb-2 text-white">Three modules. One portable identity.</h3>
-          <p className="text-center text-slate-500 mb-10">Not an app. Infrastructure that any government or employer can fork.</p>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="bg-slate-900 border-slate-800 hover:border-orange-500/30 transition-colors">
-              <CardContent className="pt-6">
-                <div className="text-3xl mb-3">🧬</div>
-                <h4 className="font-bold text-white mb-2">Skills Signal Engine</h4>
-                <p className="text-slate-400 text-sm leading-relaxed">
-                  Describe yourself in plain language. We extract every skill — mechanical, digital,
-                  language, business — and map them to the ESCO international taxonomy with ISCO codes.
-                </p>
-                <div className="mt-4 flex gap-1.5 flex-wrap">
-                  <Badge variant="secondary" className="text-xs bg-slate-800 text-slate-400">ESCO v1.2.0</Badge>
-                  <Badge variant="secondary" className="text-xs bg-slate-800 text-slate-400">ISCO-08</Badge>
-                  <Badge variant="secondary" className="text-xs bg-slate-800 text-slate-400">Claude AI</Badge>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-slate-900 border-slate-800 hover:border-orange-500/30 transition-colors">
-              <CardContent className="pt-6">
-                <div className="text-3xl mb-3">🛡️</div>
-                <h4 className="font-bold text-white mb-2">AI Readiness Lens</h4>
-                <p className="text-slate-400 text-sm leading-relaxed">
-                  Automation risk calibrated for your local economy — not the U.S. baseline.
-                  Uses Frey-Osborne scores with country-specific multipliers from ILO task indices.
-                </p>
-                <div className="mt-4 flex gap-1.5 flex-wrap">
-                  <Badge variant="secondary" className="text-xs bg-slate-800 text-slate-400">Frey-Osborne 2013</Badge>
-                  <Badge variant="secondary" className="text-xs bg-slate-800 text-slate-400">ILO calibration</Badge>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-slate-900 border-slate-800 hover:border-orange-500/30 transition-colors">
-              <CardContent className="pt-6">
-                <div className="text-3xl mb-3">📊</div>
-                <h4 className="font-bold text-white mb-2">Opportunity Matching</h4>
-                <p className="text-slate-400 text-sm leading-relaxed">
-                  Real jobs, real wages from ILOSTAT. Real employment growth from World Bank WDI.
-                  Scored by skill match × wage × growth — not generic career advice.
-                </p>
-                <div className="mt-4 flex gap-1.5 flex-wrap">
-                  <Badge variant="secondary" className="text-xs bg-slate-800 text-slate-400">ILOSTAT 2023</Badge>
-                  <Badge variant="secondary" className="text-xs bg-slate-800 text-slate-400">World Bank WDI</Badge>
-                </div>
-              </CardContent>
-            </Card>
+      <section className="mx-auto max-w-6xl px-4 sm:px-6 pb-24">
+        <Reveal>
+          <div className="text-center mb-12">
+            <h2 className="font-serif-display text-3xl sm:text-4xl text-foreground">{t('landing.modules_title')}</h2>
+            <p className="mt-3 text-muted-foreground">{t('landing.modules_subtitle')}</p>
           </div>
+        </Reveal>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {FEATURES.map((f, i) => (
+            <Reveal key={f.title} delay={i * 120}>
+              <div className="card-elevated p-6 h-full">
+                <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <f.icon className="h-5 w-5" />
+                </div>
+                <h3 className="mt-4 font-semibold text-foreground">{f.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
+                <div className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-muted px-2.5 py-1 text-[11px] font-medium text-muted-foreground font-data">
+                  {f.tag}
+                </div>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </section>
 
-      {/* Config switcher callout */}
-      <section className="px-4 py-12 border-t border-slate-800">
-        <div className="max-w-3xl mx-auto text-center">
-          <p className="text-slate-500 text-sm uppercase tracking-widest mb-3 font-medium">The infrastructure play</p>
-          <h3 className="text-2xl font-bold text-white mb-4">One config file. Any country.</h3>
-          <p className="text-slate-400 leading-relaxed mb-6">
-            Switch the entire app — language, currency, calibration, data sources, demo persona —
-            between Peru and Ghana with a single click. No redeploy. No code change.
-            Any government can fork this repo and configure it for their own country today.
+      <section className="mx-auto max-w-3xl px-4 sm:px-6 pb-24 text-center">
+        <Reveal>
+          <p className="text-xs uppercase tracking-widest text-muted-foreground font-medium mb-3">
+            {t('landing.infra_label')}
           </p>
-          <Link href="/admin/config">
-            <Button variant="outline" className="border-slate-700 text-slate-300 hover:border-orange-400 hover:text-orange-400">
-              See the live config switcher →
-            </Button>
+          <h3 className="font-serif-display text-3xl text-foreground mb-4">{t('landing.infra_title')}</h3>
+          <p className="text-muted-foreground leading-relaxed mb-6">{t('landing.infra_desc')}</p>
+          <Link
+            href="/admin/config"
+            className="hover-lift inline-flex items-center gap-2 rounded-full border border-border bg-card px-5 py-2.5 text-sm font-medium text-foreground hover:border-primary"
+          >
+            <Globe className="h-4 w-4" /> {t('landing.infra_cta')}
           </Link>
-        </div>
+        </Reveal>
       </section>
 
-      <footer className="px-4 py-6 border-t border-slate-800 text-center text-xs text-slate-600">
-        Real public data only · ESCO v1.2.0 · Frey-Osborne 2013 · ILOSTAT · World Bank WDI 2024 · MIT License
+      <footer className="mx-auto max-w-6xl px-4 sm:px-6 py-8 border-t border-border text-center text-xs text-muted-foreground">
+        {t('landing.footer')}
       </footer>
     </div>
   )

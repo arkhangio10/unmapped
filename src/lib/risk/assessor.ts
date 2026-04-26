@@ -91,8 +91,13 @@ async function recommendAdjacentSkills(
   country: CountryConfig
 ): Promise<AdjacentSkill[]> {
   const durableList = durableSkills.map(s => s.skill_name).join(', ') || 'practical manual and interpersonal skills'
+  const langName = country.primary_language === 'es' ? 'Spanish' : 'English'
 
-  const systemPrompt = `You are a career navigator for youth in ${country.country_name}. Given a person's durable AI-resilient skills, recommend 3 specific adjacent skills they should learn next. Each recommendation must: (1) build naturally on their existing skills, (2) be resilient to automation through 2030, (3) be locally relevant — reference real industries or job markets in ${country.country_name}. Return ONLY a JSON array with no markdown: [{"skill": string, "rationale": string (max 2 sentences, mention a specific local industry or trend)}]`
+  const systemPrompt = `You are a career navigator for youth in ${country.country_name}. Given a person's durable AI-resilient skills, recommend 3 specific adjacent skills they should learn next. Each recommendation must: (1) build naturally on their existing skills, (2) be resilient to automation through 2030, (3) be locally relevant — reference real industries or job markets in ${country.country_name}.
+
+IMPORTANT: Write the "skill" name and "rationale" text in ${langName}. The JSON keys must remain in English.
+
+Return ONLY a JSON array with no markdown: [{"skill": string (in ${langName}), "rationale": string (in ${langName}, max 2 sentences, mention a specific local industry or trend)}]`
 
   const userPrompt = `Person: ${name} in ${country.country_name}. Their durable skills include: ${durableList}`
 
@@ -101,6 +106,13 @@ async function recommendAdjacentSkills(
     const cleaned = response.replace(/```json|```/g, '').trim()
     return JSON.parse(cleaned) as AdjacentSkill[]
   } catch {
+    if (country.primary_language === 'es') {
+      return [
+        { skill: 'Administración digital de negocios', rationale: `Demanda creciente de habilidades de gestión de pequeños negocios en la economía informal de ${country.country_name}.` },
+        { skill: 'Servicio al cliente en inglés', rationale: `Los trabajadores bilingües ganan salarios significativamente más altos en turismo y sectores de exportación.` },
+        { skill: 'Educación financiera básica', rationale: `Los microempresarios con habilidades contables ganan en promedio un 30% más.` },
+      ]
+    }
     return [
       { skill: 'Digital business administration', rationale: `Growing demand for small business management skills in ${country.country_name}'s informal economy.` },
       { skill: 'Customer service in English', rationale: `Bilingual service workers command significantly higher wages in tourism and export sectors.` },
@@ -117,7 +129,8 @@ async function generateRiskExplanation(
   name: string,
   country: CountryConfig
 ): Promise<string> {
-  const systemPrompt = `You are an honest workforce analyst. Write a 2-3 sentence plain-language assessment of a person's automation risk. Be honest and calibrated — do not say "you'll be fine" or "AI won't affect you." Always give a calibrated, actionable assessment. Write in ${country.primary_language === 'es' ? 'Spanish' : 'English'}. Address the person by their first name.`
+  const langName = country.primary_language === 'es' ? 'Spanish' : 'English'
+  const systemPrompt = `You are an honest workforce analyst. Write a 2-3 sentence plain-language assessment of a person's automation risk. Be honest and calibrated — do not say "you'll be fine" or "AI won't affect you." Always give a calibrated, actionable assessment. Write entirely in ${langName}. Address the person by their first name.`
 
   const durableNames = durable.map(s => s.skill_name).slice(0, 3).join(', ')
   const atRiskNames = atRisk.map(s => s.skill_name).slice(0, 2).join(', ')
@@ -127,6 +140,9 @@ async function generateRiskExplanation(
   try {
     return await callClaude(systemPrompt, userPrompt, 250)
   } catch {
+    if (country.primary_language === 'es') {
+      return `Tu riesgo de automatización es del ${Math.round(score * 100)}% — clasificado como riesgo ${band} para el mercado laboral de ${country.country_name}. Enfócate en desarrollar tus habilidades duraderas mientras adaptas las habilidades en riesgo hacia aplicaciones más complejas.`
+    }
     return `Your automation risk is assessed at ${Math.round(score * 100)}% — classified as ${band} risk for the ${country.country_name} labor market. Focus on building your durable skills while adapting the at-risk ones toward more complex applications.`
   }
 }

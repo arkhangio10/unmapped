@@ -14,6 +14,25 @@ data_sources:
   macro: wdi_peru.json
 informal_economy_share: 0.75
 youth_neet_rate: 0.18
+regions:
+  - Lima
+  - Arequipa
+  - Cusco
+  - La Libertad
+  - Piura
+  - Ancash
+  - Junín
+  - Lambayeque
+  - Cajamarca
+  - Puno
+  - Loreto
+  - Ica
+  - San Martín
+  - Huánuco
+  - Ayacucho
+  - Ucayali
+  - Tacna
+  - Madre de Dios
 demo_persona:
   name: Diego
   age: 21

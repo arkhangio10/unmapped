@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
 
     // Run matcher pipeline (3 LLM calls max)
     const candidates = await extractCandidateSkills(data.raw_self_description, country)
-    const matchedSkills = await matchToEsco(candidates, data.raw_self_description)
+    const matchedSkills = await matchToEsco(candidates, data.raw_self_description, country.primary_language)
     const summary = await generateHumanReadableSummary(
       matchedSkills,
       {

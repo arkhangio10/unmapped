@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { Reveal } from '@/components/reveal'
+import { useT, useLang } from '@/lib/i18n'
 
 const FLAG: Record<string, string> = { PER: '🇵🇪 Peru', GHA: '🇬🇭 Ghana' }
 
@@ -17,39 +17,43 @@ export default function SummaryCard({
   region: string | null
   countryCode: string
 }) {
-  const [summary, setSummary] = useState<string>('Generating your summary...')
+  const t = useT()
+  const lang = useLang()
+  const [summary, setSummary] = useState<string>('…')
 
   useEffect(() => {
     const stored = window.sessionStorage.getItem(`profile_summary_${userId}`)
     if (stored) {
       setSummary(stored)
     } else {
-      setSummary(
-        `${displayName} brings practical, lived experience that maps to internationally recognized ESCO skill categories. The skill grid below shows the standardized profile.`
-      )
+      const fallback = lang === 'es'
+        ? `${displayName} aporta experiencia práctica y vivida que se mapea a categorías de habilidades reconocidas por ESCO. La cuadrícula a continuación muestra el perfil estandarizado.`
+        : `${displayName} brings practical, lived experience that maps to internationally recognized ESCO skill categories. The skill grid below shows the standardized profile.`
+      setSummary(fallback)
     }
-  }, [userId, displayName])
+  }, [userId, displayName, lang])
 
   return (
-    <Card className="bg-gradient-to-br from-orange-950/40 to-slate-900 border-orange-500/30 mb-8">
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-orange-400 text-sm font-medium mb-1">Professional summary</p>
-            <CardTitle className="text-white text-xl">{displayName}</CardTitle>
-            <p className="text-slate-400 text-sm mt-1">
-              {region && `${region} · `}
-              {FLAG[countryCode] ?? countryCode}
-            </p>
+    <Reveal>
+      <div className="card-elevated relative overflow-hidden p-8 mb-10">
+        <div className="absolute top-0 right-0 h-32 w-32 -translate-y-1/2 translate-x-1/2 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
+        <div className="relative">
+          <div className="flex items-center justify-between mb-3 gap-3 flex-wrap">
+            <div>
+              <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">{t('profile.summary_label')}</p>
+              <h2 className="font-serif-display text-3xl text-foreground">{displayName}</h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                {region && <span>{region} · </span>}
+                {FLAG[countryCode] ?? countryCode}
+              </p>
+            </div>
+            <span className="rounded-full border border-primary/30 bg-primary/10 px-2.5 py-1 text-[11px] font-medium text-primary">
+              {t('profile.show_to_employers')}
+            </span>
           </div>
-          <Badge className="bg-orange-500/20 text-orange-400 border-orange-500/30 text-xs hidden sm:inline-flex">
-            Show this to employers
-          </Badge>
+          <p className="text-foreground/90 leading-relaxed text-lg mt-4">{summary}</p>
         </div>
-      </CardHeader>
-      <CardContent>
-        <p className="text-slate-200 leading-relaxed text-lg">{summary}</p>
-      </CardContent>
-    </Card>
+      </div>
+    </Reveal>
   )
 }
