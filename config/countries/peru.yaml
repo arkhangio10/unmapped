@@ -1,0 +1,22 @@
+country_code: PER
+country_name: Peru
+primary_language: es
+secondary_languages: [qu, en]
+currency: PEN
+isco_version: ISCO-08
+automation_calibration:
+  manual_routine: 0.7
+  cognitive_routine: 0.85
+  manual_nonroutine: 0.95
+data_sources:
+  wages: ilo_wages_peru.json
+  employment: ilo_employment_peru.json
+  macro: wdi_peru.json
+informal_economy_share: 0.75
+youth_neet_rate: 0.18
+demo_persona:
+  name: Diego
+  age: 21
+  region: Cusco
+  description_es: "Reparo motocicletas en el taller de mi tío, vendo repuestos en Facebook, y aprendí Excel básico en YouTube para llevar el inventario."
+  description_en: "I repair motorcycles in my uncle's shop, sell parts on Facebook, and taught myself basic Excel from YouTube to track inventory."

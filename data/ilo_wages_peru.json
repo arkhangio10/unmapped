@@ -1,0 +1,22 @@
+[
+  {"isco_code": "7231", "occupation_name": "Motor vehicle mechanics and repairers", "sector": "Manufacturing & Repair", "median_monthly_wage_local": 1800, "median_monthly_wage_usd": 480, "year": 2023},
+  {"isco_code": "7234", "occupation_name": "Bicycle and related repairers", "sector": "Manufacturing & Repair", "median_monthly_wage_local": 1200, "median_monthly_wage_usd": 320, "year": 2023},
+  {"isco_code": "5221", "occupation_name": "Stall and market salespersons", "sector": "Trade & Commerce", "median_monthly_wage_local": 1100, "median_monthly_wage_usd": 293, "year": 2023},
+  {"isco_code": "5222", "occupation_name": "Shop salespersons", "sector": "Trade & Commerce", "median_monthly_wage_local": 1350, "median_monthly_wage_usd": 360, "year": 2023},
+  {"isco_code": "4312", "occupation_name": "Accounting and bookkeeping clerks", "sector": "Financial Services", "median_monthly_wage_local": 2200, "median_monthly_wage_usd": 587, "year": 2023},
+  {"isco_code": "4321", "occupation_name": "Inventory clerks", "sector": "Logistics", "median_monthly_wage_local": 1600, "median_monthly_wage_usd": 427, "year": 2023},
+  {"isco_code": "2512", "occupation_name": "Software developers", "sector": "Technology", "median_monthly_wage_local": 5500, "median_monthly_wage_usd": 1467, "year": 2023},
+  {"isco_code": "3511", "occupation_name": "ICT operations technicians", "sector": "Technology", "median_monthly_wage_local": 2800, "median_monthly_wage_usd": 747, "year": 2023},
+  {"isco_code": "3322", "occupation_name": "Commercial sales representatives", "sector": "Trade & Commerce", "median_monthly_wage_local": 2400, "median_monthly_wage_usd": 640, "year": 2023},
+  {"isco_code": "2431", "occupation_name": "Advertising and marketing professionals", "sector": "Technology", "median_monthly_wage_local": 3200, "median_monthly_wage_usd": 853, "year": 2023},
+  {"isco_code": "5111", "occupation_name": "Travel attendants and stewards", "sector": "Tourism & Hospitality", "median_monthly_wage_local": 2100, "median_monthly_wage_usd": 560, "year": 2023},
+  {"isco_code": "5120", "occupation_name": "Housekeeping and restaurant services", "sector": "Tourism & Hospitality", "median_monthly_wage_local": 1400, "median_monthly_wage_usd": 373, "year": 2023},
+  {"isco_code": "8321", "occupation_name": "Motorcycle and cycle riders", "sector": "Transport & Logistics", "median_monthly_wage_local": 1500, "median_monthly_wage_usd": 400, "year": 2023},
+  {"isco_code": "8322", "occupation_name": "Car and motor vehicle drivers", "sector": "Transport & Logistics", "median_monthly_wage_local": 1700, "median_monthly_wage_usd": 453, "year": 2023},
+  {"isco_code": "6111", "occupation_name": "Field crop and vegetable growers", "sector": "Agriculture", "median_monthly_wage_local": 950, "median_monthly_wage_usd": 253, "year": 2023},
+  {"isco_code": "3231", "occupation_name": "Community health workers", "sector": "Health & Social", "median_monthly_wage_local": 1650, "median_monthly_wage_usd": 440, "year": 2023},
+  {"isco_code": "7112", "occupation_name": "Bricklayers and related workers", "sector": "Construction", "median_monthly_wage_local": 1900, "median_monthly_wage_usd": 507, "year": 2023},
+  {"isco_code": "7212", "occupation_name": "Welders and flamecutters", "sector": "Manufacturing & Repair", "median_monthly_wage_local": 2000, "median_monthly_wage_usd": 533, "year": 2023},
+  {"isco_code": "5141", "occupation_name": "Hairdressers and barbers", "sector": "Personal Services", "median_monthly_wage_local": 1300, "median_monthly_wage_usd": 347, "year": 2023},
+  {"isco_code": "2166", "occupation_name": "Graphic and multimedia designers", "sector": "Technology", "median_monthly_wage_local": 2600, "median_monthly_wage_usd": 693, "year": 2023}
+]

@@ -1,0 +1,105 @@
+{
+  "nav": {
+    "try_demo": "Probar el demo",
+    "dashboard": "Panel de control",
+    "switch_country": "Cambiar país"
+  },
+  "landing": {
+    "hero_title": "Tus habilidades son reales.",
+    "hero_subtitle": "Ahora son visibles.",
+    "hero_description": "UNMAPPED convierte tu experiencia de vida en una identidad económica portátil — mapeada a estándares internacionales, legible por cualquier empleador, gobierno o proveedor de formación.",
+    "cta_primary": "Probar el demo",
+    "cta_secondary": "Ver panel de políticas",
+    "feature_1_title": "Motor de señales de habilidades",
+    "feature_1_desc": "Descríbete en tu propio idioma. Extraemos y mapeamos cada habilidad a la taxonomía internacional ESCO.",
+    "feature_2_title": "Lente de preparación para la IA",
+    "feature_2_desc": "Riesgo de automatización calibrado para tu economía local — no la línea base de EE.UU. Honesto, accionable, específico.",
+    "feature_3_title": "Emparejamiento de oportunidades",
+    "feature_3_desc": "Empleos reales, salarios reales del ILOSTAT. Crecimiento real del empleo del Banco Mundial WDI. No consejos genéricos."
+  },
+  "onboarding": {
+    "title": "Cuéntanos sobre ti",
+    "subtitle": "Escribe libremente — cuanto más compartas, mejor será tu perfil. Usa tus propias palabras.",
+    "name_label": "Tu nombre",
+    "age_label": "Edad",
+    "country_label": "País",
+    "region_label": "Región o ciudad",
+    "education_label": "Nivel educativo más alto",
+    "languages_label": "Idiomas que hablas",
+    "description_label": "Describe tu trabajo, habilidades y experiencia",
+    "description_placeholder": "Cuéntanos qué haces, qué has aprendido y en qué eres bueno/a...",
+    "use_demo": "Usar persona de demo",
+    "submit": "Generar mi perfil",
+    "generating": "Generando tu perfil...",
+    "education_primary": "Primaria",
+    "education_secondary": "Secundaria",
+    "education_tertiary": "Universidad o instituto",
+    "education_vocational": "Formación vocacional",
+    "education_none": "Sin educación formal"
+  },
+  "profile": {
+    "summary_title": "Tu resumen profesional",
+    "summary_hint": "Comparte esto con posibles empleadores",
+    "skills_title": "Tu perfil de habilidades",
+    "skill_source_self": "Autodeclarado",
+    "skill_source_inferred": "Inferido por IA",
+    "confidence": "Confianza",
+    "esco_id": "ESCO",
+    "continue_risk": "Continuar a Riesgo IA →",
+    "loading": "Construyendo tu perfil..."
+  },
+  "risk": {
+    "title": "Evaluación de preparación para la IA",
+    "risk_low": "Riesgo bajo",
+    "risk_medium": "Riesgo medio",
+    "risk_high": "Riesgo alto",
+    "durable_title": "Tus habilidades duraderas",
+    "at_risk_title": "Habilidades en riesgo",
+    "recommendations_title": "Habilidades recomendadas a desarrollar",
+    "why": "¿Por qué?",
+    "continue_opportunities": "Ver oportunidades para mí →",
+    "loading": "Evaluando tu riesgo de automatización..."
+  },
+  "match": {
+    "title": "Oportunidades para ti",
+    "wage_local": "Salario mensual",
+    "wage_usd": "Equivalente USD",
+    "growth": "Crecimiento del sector",
+    "reachable": "Alcanzable",
+    "stretch": "Desafiante",
+    "aspirational": "Aspiracional",
+    "skill_match": "Coincidencia de habilidades",
+    "filter_formal": "Empleo formal",
+    "filter_self": "Autoempleo",
+    "filter_gig": "Gig",
+    "filter_training": "Vía de formación",
+    "show_map": "Ver en mapa",
+    "loading": "Buscando tus oportunidades..."
+  },
+  "dashboard": {
+    "title": "Panel de políticas",
+    "skill_gap_title": "Brecha de habilidades por sector",
+    "risk_distribution_title": "Exposición a la automatización",
+    "employment_growth_title": "Crecimiento del empleo 2022–2024",
+    "map_title": "Brecha de habilidades regional",
+    "data_sources": "Fuentes de datos",
+    "neet_rate": "Tasa NEET juvenil",
+    "informal_share": "Participación economía informal",
+    "gdp_per_capita": "PIB per cápita"
+  },
+  "admin": {
+    "title": "Configuración del país",
+    "current_country": "País activo",
+    "switch_peru": "Cambiar a Perú 🇵🇪",
+    "switch_ghana": "Cambiar a Ghana 🇬🇭",
+    "config_preview": "Configuración activa",
+    "switch_note": "Este cambio se propaga a todas las páginas. Sin redespliegue. Sin cambios de código.",
+    "switching": "Cambiando..."
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Algo salió mal. Por favor intenta de nuevo.",
+    "back": "Atrás",
+    "data_source": "Fuente de datos"
+  }
+}

@@ -1,0 +1,194 @@
+isco_code,occupation_name,automation_probability
+1120,Managing directors and chief executives,0.05
+1211,Finance managers,0.07
+1221,Sales and marketing managers,0.14
+1311,Agricultural and forestry producers,0.45
+1420,Retail and wholesale trade managers,0.32
+1431,Restaurant managers,0.27
+2111,Physicists and astronomers,0.03
+2141,Industrial and production engineers,0.21
+2143,Environmental engineers,0.18
+2144,Mechanical engineers,0.20
+2145,Chemical engineers,0.22
+2153,Electrical engineers,0.19
+2166,Graphic and multimedia designers,0.39
+2211,Generalist medical practitioners,0.04
+2212,Specialist medical practitioners,0.03
+2221,Nursing professionals,0.09
+2240,Paramedical practitioners,0.14
+2250,Veterinarians,0.18
+2310,University and higher education teachers,0.04
+2320,Vocational education teachers,0.06
+2330,Secondary education teachers,0.08
+2341,Primary school teachers,0.17
+2352,Special needs teachers,0.09
+2410,Finance analysts,0.23
+2421,Management consultants,0.16
+2431,Advertising and marketing professionals,0.28
+2511,Systems analysts,0.18
+2512,Software developers,0.04
+2521,Database designers and administrators,0.11
+2522,Systems administrators,0.19
+2523,Computer network professionals,0.22
+2529,Software and applications developers not elsewhere classified,0.08
+3115,Mechanical engineering technicians,0.41
+3122,Manufacturing supervisors,0.38
+3123,Construction supervisors,0.30
+3131,Power production plant operators,0.56
+3132,Incinerator and water treatment plant operators,0.62
+3137,Petroleum and natural gas refining plant operators,0.51
+3141,Life science technicians,0.36
+3212,Medical and pathology laboratory technicians,0.45
+3221,Nursing associate professionals,0.29
+3231,Community health workers,0.26
+3241,Dental assistants and therapists,0.35
+3251,Environmental and occupational health inspectors,0.42
+3312,Credit and loans officers,0.55
+3314,Statistical and finance clerks,0.68
+3315,Valuers and loss assessors,0.61
+3322,Commercial sales representatives,0.47
+3323,Buyers,0.62
+3334,Real estate agents and property managers,0.51
+3411,Legal and related associate professionals,0.35
+3412,Social work associate professionals,0.22
+3421,Athletes and sports players,0.28
+3511,Information and communications technology operations technicians,0.52
+3512,Information and communications technology user support technicians,0.54
+3513,Computer network and systems technicians,0.42
+4110,General office clerks,0.76
+4120,Secretaries,0.65
+4131,Stock clerks,0.72
+4132,Production clerks,0.74
+4141,Library clerks,0.68
+4211,Bank tellers and related clerks,0.81
+4212,Gambling dealers and related workers,0.73
+4213,Pawnbrokers and money lenders,0.66
+4221,Travel consultants and clerks,0.69
+4222,Contact centre information clerks,0.71
+4312,Accounting and bookkeeping clerks,0.75
+4313,Statistical and finance clerks,0.78
+4321,Inventory clerks,0.73
+4411,Library and filing clerks,0.67
+5111,Travel attendants and travel stewards,0.35
+5112,Transport conductors,0.48
+5120,Housekeeping and restaurant services,0.59
+5131,Waiters,0.73
+5132,Bartenders,0.77
+5141,Hairdressers and barbers,0.33
+5142,Beauty therapists and related workers,0.41
+5151,Cleaning and housekeeping supervisors,0.39
+5152,Domestic housekeepers,0.38
+5153,Building caretakers,0.52
+5161,Astrologers and related workers,0.80
+5162,Companions and valets,0.33
+5163,Undertakers and embalmers,0.46
+5165,Animal care workers,0.28
+5221,Stall and market salespersons,0.53
+5222,Shop salespersons,0.55
+5230,Cashiers and ticket clerks,0.84
+5244,Contact centre salespersons,0.77
+5245,Petrol station attendants,0.88
+5249,Sales workers not elsewhere classified,0.59
+5311,Child care workers,0.21
+5312,Teachers aides,0.31
+5321,Health care assistants,0.22
+5322,Home-based personal care workers,0.16
+5411,Fire fighters,0.17
+5412,Police officers,0.09
+5413,Prison guards,0.44
+5414,Security guards and related workers,0.56
+6111,Field crop and vegetable growers,0.54
+6112,Tree and shrub crop growers,0.48
+6121,Livestock and dairy producers,0.41
+6122,Poultry producers,0.62
+6129,Animal producers not elsewhere classified,0.48
+6210,Forestry and related workers,0.59
+6221,Aquaculture workers,0.51
+6222,Inland and coastal waters fishery workers,0.44
+7111,House builders,0.34
+7112,Bricklayers and related workers,0.61
+7113,Stonemasons and stone cutters,0.52
+7114,Concrete placers and finishers,0.65
+7115,Carpenters and joiners,0.55
+7116,Roofers,0.69
+7119,Building frame and related trades workers not elsewhere classified,0.63
+7131,Painters and related workers,0.67
+7132,Spray painters and varnishers,0.64
+7133,Building structure cleaners,0.66
+7211,Metal moulders and coremakers,0.71
+7212,Welders and flamecutters,0.59
+7213,Sheet metal workers,0.60
+7214,Structural metal preparers and erectors,0.56
+7221,Blacksmiths and related workers,0.58
+7222,Tool makers and related workers,0.55
+7223,Metal working machine tool setters and operators,0.73
+7231,Motor vehicle mechanics and repairers,0.59
+7232,Aircraft engine mechanics and repairers,0.50
+7233,Agricultural and industrial machinery mechanics and repairers,0.57
+7234,Bicycle and related repairers,0.42
+7311,Precision instrument makers and repairers,0.43
+7312,Musical instrument makers and repairers,0.37
+7313,Jewellery and precious metal workers,0.41
+7315,Potters and related workers,0.71
+7316,Glass makers cutters grinders and polishers,0.73
+7321,Pre-press technicians,0.78
+7411,Building and fire inspectors,0.44
+7412,Occupational health and safety inspectors,0.38
+7413,Quality controllers,0.61
+7421,Wood treaters and related workers,0.72
+7422,Cabinet makers and related workers,0.55
+7511,Butchers fish and poultry processors,0.79
+7512,Bakers pastry cooks and confectionery makers,0.75
+7513,Dairy products makers,0.74
+7514,Fruit vegetable and related preservers,0.76
+7515,Food and beverage tasters and graders,0.54
+7516,Tobacco preparers and tobacco products makers,0.78
+7521,Wood and related products treaters,0.72
+7522,Cabinet makers and related workers,0.56
+7523,Wood products machine operators and related workers,0.74
+8111,Mining and quarry workers,0.66
+8112,Mineral and stone processing plant operators,0.78
+8121,Ore and metal furnace operators,0.69
+8122,Metal melters and casters,0.71
+8141,Rubber products machine operators,0.81
+8142,Plastic products machine operators,0.83
+8151,Paper products machine operators,0.79
+8152,Print finishing machine operators,0.76
+8153,Bookbinders and related workers,0.72
+8154,Paper and paperboard products machine operators,0.80
+8160,Food and related products machine operators,0.82
+8171,Semiconductor products machine operators,0.72
+8172,Photographic products machine operators,0.76
+8211,Mechanical machinery assemblers,0.81
+8212,Electrical and electronic equipment assemblers,0.74
+8219,Assemblers not elsewhere classified,0.84
+8311,Locomotive engine drivers,0.43
+8312,Railway brake car and signal operators,0.66
+8321,Motorcycle and cycle riders,0.22
+8322,Car van and related motor vehicle drivers,0.57
+8331,Mobile farm and forestry plant operators,0.59
+8332,Earth-moving and related plant operators,0.61
+8341,Ships deck officers and pilots,0.18
+8342,Ships engine officers,0.24
+9111,Domestic cleaners and helpers,0.46
+9112,Home-based personal care workers,0.35
+9121,Hand launderers and pressers,0.64
+9122,Vehicle cleaners,0.71
+9123,Window cleaners,0.66
+9129,Cleaning workers not elsewhere classified,0.68
+9210,Agricultural forestry and fishery labourers,0.55
+9311,Mining and construction labourers,0.72
+9312,Civil engineering labourers,0.69
+9313,Building construction labourers,0.71
+9321,Hand packers,0.91
+9329,Manufacturing labourers not elsewhere classified,0.88
+9331,Hand and pedal vehicle drivers,0.29
+9332,Drivers of animal-drawn vehicles and machinery,0.38
+9333,Freight handlers,0.85
+9411,Fast food preparers,0.81
+9412,Kitchen helpers,0.78
+9510,Street vendors (excluding food),0.72
+9520,Shoe cleaning and other street services,0.68
+9611,Garbage and recycling collectors,0.67
+9612,Refuse sorters,0.82
+9613,Sweepers and related labourers,0.73

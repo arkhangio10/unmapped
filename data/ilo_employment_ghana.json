@@ -1,0 +1,16 @@
+[
+  {"sector": "Technology & ICT", "isco_code": "2512", "employment_2022": 52000, "employment_2024": 74000, "growth_pct": 42.3},
+  {"sector": "Technology & ICT", "isco_code": "3511", "employment_2022": 38000, "employment_2024": 53000, "growth_pct": 39.5},
+  {"sector": "Technology & ICT", "isco_code": "4222", "employment_2022": 28000, "employment_2024": 41000, "growth_pct": 46.4},
+  {"sector": "Trade & Commerce", "isco_code": "5222", "employment_2022": 980000, "employment_2024": 1090000, "growth_pct": 11.2},
+  {"sector": "Trade & Commerce", "isco_code": "9510", "employment_2022": 1450000, "employment_2024": 1520000, "growth_pct": 4.8},
+  {"sector": "Manufacturing & Repair", "isco_code": "7234", "employment_2022": 180000, "employment_2024": 214000, "growth_pct": 18.9},
+  {"sector": "Manufacturing & Repair", "isco_code": "7231", "employment_2022": 95000, "employment_2024": 108000, "growth_pct": 13.7},
+  {"sector": "Agriculture", "isco_code": "6111", "employment_2022": 4800000, "employment_2024": 4720000, "growth_pct": -1.7},
+  {"sector": "Tourism & Hospitality", "isco_code": "5111", "employment_2022": 320000, "employment_2024": 398000, "growth_pct": 24.4},
+  {"sector": "Health & Social", "isco_code": "3231", "employment_2022": 145000, "employment_2024": 178000, "growth_pct": 22.8},
+  {"sector": "Transport & Logistics", "isco_code": "8321", "employment_2022": 890000, "employment_2024": 940000, "growth_pct": 5.6},
+  {"sector": "Financial Services", "isco_code": "4312", "employment_2022": 88000, "employment_2024": 102000, "growth_pct": 15.9},
+  {"sector": "Personal Services", "isco_code": "5141", "employment_2022": 620000, "employment_2024": 680000, "growth_pct": 9.7},
+  {"sector": "Construction", "isco_code": "7112", "employment_2022": 540000, "employment_2024": 608000, "growth_pct": 12.6}
+]

@@ -1,0 +1,22 @@
+country_code: GHA
+country_name: Ghana
+primary_language: en
+secondary_languages: [tw, ee]
+currency: GHS
+isco_version: ISCO-08
+automation_calibration:
+  manual_routine: 0.6
+  cognitive_routine: 0.8
+  manual_nonroutine: 0.95
+data_sources:
+  wages: ilo_wages_ghana.json
+  employment: ilo_employment_ghana.json
+  macro: wdi_ghana.json
+informal_economy_share: 0.85
+youth_neet_rate: 0.30
+demo_persona:
+  name: Amara
+  age: 22
+  region: Accra
+  description_en: "I run a phone repair business, taught myself Python on YouTube, and speak three languages."
+  description_es: "Tengo un negocio de reparación de teléfonos, aprendí Python en YouTube por mi cuenta, y hablo tres idiomas."

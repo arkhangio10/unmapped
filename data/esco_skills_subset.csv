@@ -1,0 +1,55 @@
+esco_id,skill_name,skill_category,description
+S1.1.1,motor vehicle maintenance,mechanical,Maintain and repair engines transmissions brakes and mechanical components of motor vehicles and motorcycles
+S1.1.2,motorcycle repair,mechanical,Diagnose and repair faults in motorcycle engines electrical systems and chassis components
+S1.1.3,vehicle electrical systems,mechanical,Install diagnose and repair electrical wiring sensors and electronic control units in motor vehicles
+S1.1.4,welding,mechanical,Join metal parts using arc welding MIG TIG and oxy-acetylene techniques for structural and repair work
+S1.1.5,plumbing installation,mechanical,Install and maintain water supply drainage and sanitation systems in buildings
+S1.1.6,carpentry,mechanical,Cut shape and assemble wood and wood-based materials for furniture construction and installation
+S1.1.7,masonry,mechanical,Lay bricks blocks and stone to construct walls foundations and structures
+S1.1.8,electrical wiring installation,mechanical,Install and connect electrical wiring circuits and equipment following safety codes
+S1.1.9,refrigeration and air conditioning repair,mechanical,Service and repair refrigeration units air conditioners and heat pumps
+S1.1.10,mobile device repair,mechanical,Diagnose and repair hardware faults in smartphones tablets and mobile electronic devices
+S1.2.1,spreadsheet software,digital,Use spreadsheet applications to organize data perform calculations and create charts
+S1.2.2,social media marketing,digital,Create and manage content on social media platforms to promote products and engage audiences
+S1.2.3,basic computer operation,digital,Use computers for common tasks including file management email and web browsing
+S1.2.4,mobile payment systems,digital,Operate and troubleshoot mobile money and digital payment platforms for transactions
+S1.2.5,data entry,digital,Input and verify data accurately into computer systems databases and forms
+S1.2.6,Python programming,digital,Write scripts and programs using Python language for automation data processing and web development
+S1.2.7,photo and video editing,digital,Edit and produce digital images and videos using software tools for personal or commercial use
+S1.2.8,e-commerce operations,digital,Manage online storefronts process orders handle customer inquiries and maintain digital product listings
+S1.2.9,inventory management software,digital,Use digital tools to track stock levels record transactions and generate inventory reports
+S1.2.10,online customer service,digital,Respond to customer inquiries and complaints through digital channels including chat email and social media
+S1.3.1,Spanish language proficiency,language,Communicate effectively in spoken and written Spanish in professional and informal contexts
+S1.3.2,English language proficiency,language,Communicate effectively in spoken and written English in professional and informal contexts
+S1.3.3,Quechua language proficiency,language,Communicate in Quechua language supporting interaction with Andean communities and clients
+S1.3.4,Twi language proficiency,language,Communicate in Twi enabling engagement with Akan-speaking communities in Ghana
+S1.3.5,Ewe language proficiency,language,Communicate in Ewe supporting interaction with communities in southern Ghana and Togo
+S1.3.6,multilingual customer service,language,Serve customers in multiple languages adapting communication style to cultural context
+S1.4.1,sales and negotiation,business,Persuade customers discuss terms and close sales transactions in informal and formal settings
+S1.4.2,inventory tracking,business,Monitor stock levels record purchases and sales and manage reordering to prevent shortages
+S1.4.3,basic bookkeeping,business,Record financial transactions maintain simple accounts and prepare basic income and expense statements
+S1.4.4,market vendor operations,business,Manage a market stall including product display pricing cash handling and customer relations
+S1.4.5,supplier relationship management,business,Source products negotiate prices with suppliers and maintain reliable supply chains for small businesses
+S1.4.6,Facebook marketplace selling,business,List products take payments manage enquiries and build reputation on Facebook marketplace
+S1.4.7,micro-enterprise management,business,Plan and run a small informal business including budgeting stock management and customer acquisition
+S1.4.8,price negotiation,business,Negotiate purchase and sale prices to maximize margin in market and supplier interactions
+S1.4.9,cash flow management,business,Track incoming and outgoing cash to ensure a business can meet its payment obligations
+S1.4.10,customer relationship management,business,Build and maintain long-term relationships with customers to generate repeat business and referrals
+S1.5.1,agricultural crop cultivation,domain,Plant tend and harvest food and cash crops using appropriate techniques for local soil and climate
+S1.5.2,livestock care,domain,Feed water and monitor the health of farm animals including poultry cattle goats and pigs
+S1.5.3,food preparation and cooking,domain,Prepare and cook meals following recipes and food hygiene standards for household or commercial sale
+S1.5.4,garment sewing and tailoring,domain,Cut stitch and finish garments and textiles using sewing machines and hand techniques
+S1.5.5,hair braiding and styling,domain,Provide hair care services including braiding weaving and styling for clients
+S1.5.6,construction labor,domain,Perform physical construction tasks including excavation material handling scaffolding and site preparation
+S1.5.7,tourism and hospitality service,domain,Provide guiding accommodation and food service to tourists following local knowledge and hospitality standards
+S1.5.8,healthcare community support,domain,Provide basic health information first aid and referral support at community level
+S1.5.9,informal transport operation,domain,Operate motorcycle taxi minibus or tuk-tuk services navigating local routes and managing fares
+S1.5.10,fishing and aquaculture,domain,Catch process and maintain fish and seafood using traditional and small-scale commercial methods
+S1.6.1,problem-solving,soft,Identify the root cause of practical problems and implement effective solutions under time and resource constraints
+S1.6.2,interpersonal communication,soft,Convey ideas clearly listen actively and build rapport with customers colleagues and supervisors
+S1.6.3,time management,soft,Organize tasks set priorities and meet deadlines in a self-directed work environment
+S1.6.4,teamwork and collaboration,soft,Work effectively with others share responsibilities and contribute to shared goals in group settings
+S1.6.5,adaptability,soft,Adjust approach and skills when conditions change tools evolve or new tasks arise in the workplace
+S1.6.6,self-directed learning,soft,Identify knowledge gaps and independently acquire new skills through observation practice and online resources
+S1.6.7,customer service orientation,soft,Consistently prioritize customer needs respond to feedback and resolve complaints to maintain satisfaction
+S1.6.8,attention to detail,soft,Check work carefully to avoid errors maintain quality standards and follow specifications precisely

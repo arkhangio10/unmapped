@@ -1,0 +1,13 @@
+{
+  "country_code": "PER",
+  "gdp_per_capita_usd": 7202,
+  "neet_rate": 0.18,
+  "labor_force_participation": 0.74,
+  "informal_economy_share": 0.75,
+  "youth_unemployment_rate": 0.098,
+  "human_capital_index": 0.61,
+  "internet_penetration": 0.71,
+  "mobile_subscriptions_per_100": 124,
+  "year": 2023,
+  "source": "World Bank WDI 2024"
+}
